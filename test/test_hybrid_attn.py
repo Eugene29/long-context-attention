@@ -35,7 +35,7 @@ def log(msg, a, rank0_only=False):
 
 
 if __name__ == "__main__":
-    use_bwd = False
+    use_bwd = True
     dist.init_process_group("nccl")
 
     rank = dist.get_rank()
@@ -48,10 +48,10 @@ if __name__ == "__main__":
     nheads = 2
     d = 128
     dropout_p = 0
-    causal = True
-    deterministic = False
+    causal = False
+    deterministic = True
 
-    use_async_all_to_all = True
+    use_async_all_to_all = False
     assert seqlen % world_size == 0
     assert d % 8 == 0
     # assert batch_size == 1

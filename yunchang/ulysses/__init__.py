@@ -1,3 +1,3 @@
-from .attn_layer import UlyssesAttention
+from .attn_layer import UlyssesAttention, PackedUlyssesAttention
 
-__all__ = ['UlyssesAttention']
+__all__ = ['UlyssesAttention', 'PackedUlyssesAttention']

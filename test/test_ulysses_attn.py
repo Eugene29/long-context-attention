@@ -86,17 +86,19 @@ if __name__ == "__main__":
         print("# ds-ulysses forward:")
         print("#" * 30)
 
-    local_out = dist_attn(
-        local_q,
-        local_k,
-        local_v,
-        dropout_p=dropout_p,
-        causal=causal,
-        window_size=(-1, -1),
-        alibi_slopes=None,
-        deterministic=deterministic,
-        return_attn_probs=True,
-    )
+    num_layer = 10
+    for _ in range(num_layer):
+        local_out = dist_attn(
+            local_q,
+            local_k,
+            local_v,
+            dropout_p=dropout_p,
+            causal=causal,
+            window_size=(-1, -1),
+            alibi_slopes=None,
+            deterministic=deterministic,
+            return_attn_probs=True,
+        )
 
     if rank == 0:
         print("#" * 30)
@@ -112,17 +114,18 @@ if __name__ == "__main__":
         print("# local forward:")
         print("#" * 30)
     # reference, a local flash attn
-    out_ref, _, _ = flash_attn_func(
-        q,
-        k,
-        v,
-        dropout_p=dropout_p,
-        causal=causal,
-        window_size=(-1, -1),
-        alibi_slopes=None,
-        deterministic=deterministic,
-        return_attn_probs=True,
-    )
+    for _ in range(num_layer):
+        out_ref, _, _ = flash_attn_func(
+            q,
+            k,
+            v,
+            dropout_p=dropout_p,
+            causal=causal,
+            window_size=(-1, -1),
+            alibi_slopes=None,
+            deterministic=deterministic,
+            return_attn_probs=True,
+        )
     if rank == 0:
         print("#" * 30)
         print("# local forward:")
